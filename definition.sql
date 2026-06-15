@@ -1,0 +1,61 @@
+CREATE DATABASE MovieTVAnalytics;
+USE MovieTVAnalytics;
+CREATE TABLE GENRE (
+    Genre_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Genre_Name VARCHAR(100) NOT NULL
+);
+CREATE TABLE USER (
+    User_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Name VARCHAR(100),
+    Email VARCHAR(150) UNIQUE,
+    Age INT,
+    Country VARCHAR(100)
+);
+CREATE TABLE MOVIE (
+    Movie_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Title VARCHAR(200),
+    Release_Year INT,
+    Duration INT,  -- in minutes
+    Language VARCHAR(50),
+    Genre_ID INT,
+    FOREIGN KEY (Genre_ID) REFERENCES GENRE(Genre_ID)
+);
+CREATE TABLE TV_SHOW (
+    Show_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Title VARCHAR(200),
+    Seasons INT,
+    Episodes INT,
+    Release_Year INT,
+    Genre_ID INT,
+    FOREIGN KEY (Genre_ID) REFERENCES GENRE(Genre_ID)
+);
+CREATE TABLE ACTOR (
+    Actor_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Name VARCHAR(100),
+    Age INT
+);
+CREATE TABLE WATCH_HISTORY (
+    History_ID INT PRIMARY KEY AUTO_INCREMENT,
+    User_ID INT,
+    Content_ID INT,
+    Watch_Date DATE,
+    Watch_Duration INT,  -- in minutes
+    FOREIGN KEY (User_ID) REFERENCES USER(User_ID)
+);
+CREATE TABLE RATING (
+    Rating_ID INT PRIMARY KEY AUTO_INCREMENT,
+    User_ID INT,
+    Content_ID INT,
+    Rating_Value DECIMAL(2,1) CHECK (Rating_Value BETWEEN 0 AND 5),
+    Review TEXT,
+    FOREIGN KEY (User_ID) REFERENCES USER(User_ID)
+);
+CREATE TABLE RECOMMENDATION (
+    Recommendation_ID INT PRIMARY KEY AUTO_INCREMENT,
+    User_ID INT,
+    Content_ID INT,
+    Reason VARCHAR(255),
+    FOREIGN KEY (User_ID) REFERENCES USER(User_ID)
+);
+
+show tables;
